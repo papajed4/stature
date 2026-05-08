@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Artist profile — Stature Management">
+    <title>Artist Profile — Stature Management</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Material Symbols -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap">
+
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body class="font-body antialiased overflow-x-hidden">
+
+    <!-- ============== MOBILE OVERLAY ============== -->
+    <div id="mobile-overlay"></div>
+
+    <!-- ============== MOBILE MENU ============== -->
+    <div id="mobile-menu">
+        <div class="mobile-menu-header">
+            <span class="mobile-menu-title">Menu</span>
+            <button id="close-menu-btn" class="mobile-menu-close">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <nav class="mobile-nav">
+            <a href="../index.html" class="mobile-nav-link">Home</a>
+            <a href="../about.html" class="mobile-nav-link">About</a>
+            <a href="../services.html" class="mobile-nav-link">Services</a>
+            <a href="../contact.html" class="mobile-nav-link">Contact</a>
+        </nav>
+        <div class="mobile-menu-footer">
+            <button onclick="bookArtist('')" class="nav-cta mobile-cta">Book an Artist</button>
+        </div>
+    </div>
+
+    <!-- ============== NAVBAR ============== -->
+    <header id="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">Stature</a>
+            <nav class="desktop-nav">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../about.html" class="nav-link">About</a>
+                <a href="../services.html" class="nav-link">Services</a>
+                <a href="../contact.html" class="nav-link">Contact</a>
+            </nav>
+            <div class="nav-cta-wrapper">
+                <button onclick="bookArtist('')" class="nav-cta">Book an Artist</button>
+            </div>
+            <button id="hamburger-btn" class="hamburger-btn">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+        </div>
+    </header>
+
+    <main id="profile-content">
+        <!-- Loading State -->
+        <div class="loading-state">
+            <div class="loading-spinner"></div>
+            <p>Loading Artist Profile</p>
+        </div>
+    </main>
+
+    <!-- ============== MOBILE BOOKING BAR ============== -->
+    <div id="booking-bar" class="booking-bar">
+        <button id="booking-bar-btn" class="btn-gold">
+            <span class="material-symbols-outlined">send</span>
+            Book <span id="booking-bar-name"></span>
+        </button>
+    </div>
+
+    <!-- ============== FOOTER ============== -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <span class="footer-logo">Stature Management</span>
+                <p class="footer-description">Premium artist representation and global brand management. Elevating the voices that define modern culture.</p>
+            </div>
+            <div class="footer-links-col">
+                <h4 class="footer-heading">Explore</h4>
+                <div class="footer-links">
+                    <a href="../about.html">About Agency</a>
+                    <a href="../index.html#roster">Artist Roster</a>
+                    <a href="../services.html">Management Services</a>
+                    <a href="../contact.html">Contact</a>
+                </div>
+            </div>
+            <div class="footer-links-col">
+                <h4 class="footer-heading">Connect</h4>
+                <div class="footer-social">
+                    <a href="#" class="social-circle instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="social-circle twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" class="social-circle youtube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#" class="social-circle spotify"><i class="fa-brands fa-spotify"></i></a>
+                </div>
+                <p class="footer-locations">Los Angeles • New York • London</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Stature Management. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- ============== SCRIPTS ============== -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="../js/supabase.js"></script>
+    <script src="../js/main.js"></script>
+
+    <script>
+        (function() {
+            'use strict';
+
+            const profileContainer = document.getElementById('profile-content');
+            const bookingBar = document.getElementById('booking-bar');
+            const bookingBarName = document.getElementById('booking-bar-name');
+            const bookingBarBtn = document.getElementById('booking-bar-btn');
+
+            // Get slug from URL
+            const params = new URLSearchParams(window.location.search);
+            const slug = params.get('slug');
+
+            if (!slug) {
+                profileContainer.innerHTML = `
+                    <div class="error-state">
+                        <span class="material-symbols-outlined">error_outline</span>
+                        <p>No artist specified.</p>
+                        <a href="../index.html" class="btn-primary">View All Artists</a>
+                    </div>
+                `;
+                return;
+            }
+
+            // Fetch artist data
+            if (!window.StatureDB || !window.StatureDB.fetchArtistBySlug) {
+                profileContainer.innerHTML = `
+                    <div class="error-state">
+                        <span class="material-symbols-outlined">error_outline</span>
+                        <p>Unable to load artist data. Please try again later.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            window.StatureDB.fetchArtistBySlug(slug).then(function(artist) {
+                if (!artist) {
+                    profileContainer.innerHTML = `
+                        <div class="error-state">
+                            <span class="material-symbols-outlined">person_off</span>
+                            <p>Artist not found.</p>
+                            <a href="../index.html" class="btn-primary">View All Artists</a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Update page title
+                document.title = artist.name + ' — Stature Management';
+                const metaDesc = document.querySelector('meta[name="description"]');
+                if (metaDesc) {
+                    metaDesc.setAttribute('content', artist.name + ' — ' + (artist.genre || 'Artist') + ' represented by Stature Management.');
+                }
+
+                // Update booking bar
+                if (bookingBarName) bookingBarName.textContent = artist.name.split(' ')[0];
+                if (bookingBarBtn) {
+                    bookingBarBtn.onclick = function() {
+                        bookArtist(artist.name);
+                    };
+                }
+
+                // Build data
+                const heroImage = artist.hero_image_url || artist.photo_url || 'https://images.unsplash.com/photo-1540039155732-684735035727?q=80&w=2069&auto=format&fit=crop';
+                const genre = artist.genre || 'Artist';
+                const bio = artist.bio || 'Biography coming soon.';
+                const tagline = artist.tagline || '';
+                const label = artist.label || '';
+
+                // Social links
+                const instagram = artist.instagram || '';
+                const twitter = artist.twitter || '';
+                const facebook = artist.facebook || '';
+                const tiktok = artist.tiktok || '';
+
+                // Streaming links
+                const spotifyId = artist.spotify_id || '';
+                const youtubeChannel = artist.youtube_channel || '';
+                const appleMusicId = artist.apple_music_id || '';
+
+                // Build social links HTML
+                let socialLinksHtml = '';
+                if (instagram) socialLinksHtml += `<a href="https://www.instagram.com/${instagram}" target="_blank" rel="noopener" class="profile-social-link"><i class="fa-brands fa-instagram"></i></a>`;
+                if (twitter) socialLinksHtml += `<a href="https://twitter.com/${twitter}" target="_blank" rel="noopener" class="profile-social-link"><i class="fa-brands fa-x-twitter"></i></a>`;
+                if (facebook) socialLinksHtml += `<a href="https://www.facebook.com/${facebook}" target="_blank" rel="noopener" class="profile-social-link"><i class="fa-brands fa-facebook"></i></a>`;
+                if (tiktok) socialLinksHtml += `<a href="https://www.tiktok.com/@${tiktok}" target="_blank" rel="noopener" class="profile-social-link"><i class="fa-brands fa-tiktok"></i></a>`;
+
+                // Build stream links
+                let streamLinksHtml = '';
+                if (spotifyId) streamLinksHtml += `<a href="https://open.spotify.com/artist/${spotifyId}" target="_blank" rel="noopener" class="stream-link spotify"><i class="fa-brands fa-spotify"></i> Spotify</a>`;
+                if (appleMusicId) streamLinksHtml += `<a href="https://music.apple.com/us/artist/${appleMusicId}" target="_blank" rel="noopener" class="stream-link apple"><i class="fa-brands fa-apple"></i> Apple Music</a>`;
+                if (youtubeChannel) streamLinksHtml += `<a href="https://www.youtube.com/channel/${youtubeChannel}" target="_blank" rel="noopener" class="stream-link youtube"><i class="fa-brands fa-youtube"></i> YouTube</a>`;
+
+                profileContainer.innerHTML = `
+                    <!-- Hero Section -->
+                    <div class="profile-hero">
+                        <div class="profile-hero-bg"></div>
+                        <img src="${heroImage}" alt="${artist.name}" class="profile-hero-img" />
+                        <div class="profile-hero-overlay"></div>
+                    </div>
+
+                    <!-- Artist Info Section -->
+                    <div class="profile-container">
+                        <div class="profile-header">
+                            <h1 class="profile-name">${escapeHtml(artist.name)}</h1>
+                            <div class="profile-meta">
+                                <span class="profile-genre">${escapeHtml(genre)}</span>
+                                ${label ? `<span class="profile-label-text">${escapeHtml(label)}</span>` : ''}
+                            </div>
+                            ${tagline ? `<p class="profile-tagline">${escapeHtml(tagline)}</p>` : ''}
+                            
+                            <button onclick="bookArtist('${escapeHtml(artist.name).replace(/'/g, "\\'")}')" class="btn-gold profile-book-btn">
+                                <span class="material-symbols-outlined">send</span>
+                                Book ${escapeHtml(artist.name.split(' ')[0])}
+                            </button>
+                            
+                            ${socialLinksHtml ? `<div class="profile-social">${socialLinksHtml}</div>` : ''}
+                        </div>
+
+                        <!-- Bio Section -->
+                        <div class="profile-section">
+                            <h2 class="profile-section-title">About</h2>
+                            <div class="profile-bio">${escapeHtml(bio).replace(/\n/g, '<br>')}</div>
+                        </div>
+
+                        <!-- Streaming Links -->
+                        ${streamLinksHtml ? `
+                        <div class="profile-section">
+                            <h2 class="profile-section-title">Listen</h2>
+                            <div class="profile-streaming">${streamLinksHtml}</div>
+                        </div>
+                        ` : ''}
+
+                        <!-- Tour Dates -->
+                        <div class="profile-section">
+                            <h2 class="profile-section-title">Tour Dates</h2>
+                            <div id="profile-tour-dates" class="tour-dates-container">
+                                <div class="loading-small">Loading tour dates...</div>
+                            </div>
+                        </div>
+
+                        <!-- Discography -->
+                        <div class="profile-section">
+                            <h2 class="profile-section-title">Discography</h2>
+                            <div id="profile-albums" class="discography-grid">
+                                <div class="loading-small">Loading discography...</div>
+                            </div>
+                        </div>
+
+                        <!-- Experiences Section -->
+                        <div class="profile-section">
+                            <h2 class="profile-section-title">Experiences</h2>
+                            <div class="experiences-grid">
+                                <div class="experience-card">
+                                    <span class="material-symbols-outlined experience-icon">handshake</span>
+                                    <h3 class="experience-title">Meet & Greet</h3>
+                                    <p class="experience-desc">Meet ${escapeHtml(artist.name.split(' ')[0])} before or after the show. Photos and autographs included.</p>
+                                    <button onclick="bookArtist('${escapeHtml(artist.name).replace(/'/g, "\\'")}', 'info@management-inc.site', 'Meet & Greet Request — ${escapeHtml(artist.name).replace(/'/g, "\\'")}', 'Name:%0D%0AShow Date:%0D%0ANumber of People:%0D%0ASpecial Requests:')" class="btn-outline experience-btn">Request Meet & Greet</button>
+                                </div>
+                                <div class="experience-card">
+                                    <span class="material-symbols-outlined experience-icon">star</span>
+                                    <h3 class="experience-title">VIP Experience</h3>
+                                    <p class="experience-desc">Exclusive access, private dinners, and once-in-a-lifetime moments with ${escapeHtml(artist.name.split(' ')[0])}.</p>
+                                    <button onclick="bookArtist('${escapeHtml(artist.name).replace(/'/g, "\\'")}', 'info@management-inc.site', 'VIP Experience Inquiry — ${escapeHtml(artist.name).replace(/'/g, "\\'")}', 'Name:%0D%0AExperience Type:%0D%0ANumber of Guests:%0D%0APreferred Date:%0D%0AAdditional Details:')" class="btn-outline experience-btn">Request VIP Access</button>
+                                </div>
+                                <div class="experience-card">
+                                    <span class="material-symbols-outlined experience-icon">shopping_bag</span>
+                                    <h3 class="experience-title">Merchandise</h3>
+                                    <p class="experience-desc">Signed vinyl, exclusive apparel, limited edition posters.</p>
+                                    <button onclick="bookArtist('${escapeHtml(artist.name).replace(/'/g, "\\'")}', 'info@management-inc.site', 'Merchandise Inquiry — ${escapeHtml(artist.name).replace(/'/g, "\\'")}', 'Name:%0D%0AItem Interested In:%0D%0ASize (if applicable):%0D%0AShipping Country:')" class="btn-outline experience-btn">Request Merch</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Load tour dates and albums using the existing supabase.js functions
+                if (artist.id) {
+                    if (window.StatureDB.renderTourDates) {
+                        window.StatureDB.renderTourDates(artist.id, 'profile-tour-dates');
+                    }
+                    if (window.StatureDB.renderAlbums) {
+                        window.StatureDB.renderAlbums(artist.id, 'profile-albums');
+                    }
+                }
+
+                // Show mobile booking bar on mobile
+                if (bookingBar && window.innerWidth <= 768) {
+                    bookingBar.style.display = 'block';
+                }
+            }).catch(function(err) {
+                console.error('Error loading artist profile:', err);
+                profileContainer.innerHTML = `
+                    <div class="error-state">
+                        <span class="material-symbols-outlined">error_outline</span>
+                        <p>Something went wrong. Please try again.</p>
+                    </div>
+                `;
+            });
+        })();
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+    </script>
+
+    <script>
+        // Navbar scroll effect and mobile menu
+        document.addEventListener('DOMContentLoaded', function() {
+            const navbar = document.getElementById('navbar');
+            const hamburgerBtn = document.getElementById('hamburger-btn');
+            const closeMenuBtn = document.getElementById('close-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileOverlay = document.getElementById('mobile-overlay');
+
+            // Navbar scroll
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            // Open mobile menu
+            function openMobileMenu() {
+                mobileMenu.classList.add('open');
+                mobileOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            // Close mobile menu
+            function closeMobileMenu() {
+                mobileMenu.classList.remove('open');
+                mobileOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            if (hamburgerBtn) hamburgerBtn.addEventListener('click', openMobileMenu);
+            if (closeMenuBtn) closeMenuBtn.addEventListener('click', closeMobileMenu);
+            if (mobileOverlay) mobileOverlay.addEventListener('click', closeMobileMenu);
+
+            // Close mobile menu when clicking a link
+            const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+            mobileLinks.forEach(link => link.addEventListener('click', closeMobileMenu));
+        });
+    </script>
+</body>
+
+</html>
