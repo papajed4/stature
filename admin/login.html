@@ -750,13 +750,6 @@
             document.getElementById('dashboard').style.display = 'none';
         }
 
-        // Check auth on load
-        if (sessionStorage.getItem('stature_admin_auth') === 'true') {
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('dashboard').style.display = 'block';
-            initDashboard();
-        }
-
         // ============================================
         // TAB SWITCHING
         // ============================================
@@ -765,10 +758,9 @@
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             document.getElementById('tab-' + tabName).classList.add('active');
             
-            // Find and activate the corresponding tab button
             const buttons = document.querySelectorAll('.tab-btn');
             buttons.forEach(btn => {
-                if (btn.getAttribute('data-tab') === tabName || btn.textContent.toLowerCase().includes(tabName)) {
+                if (btn.getAttribute('data-tab') === tabName) {
                     btn.classList.add('active');
                 }
             });
@@ -780,7 +772,6 @@
             if (tabName === 'add-album') loadArtistDropdowns();
         }
 
-        // Initialize tab buttons
         function initTabs() {
             const tabButtons = document.querySelectorAll('.tab-btn');
             tabButtons.forEach(btn => {
@@ -798,13 +789,6 @@
             initTabs();
             await loadArtists();
             loadArtistDropdowns();
-            
-            // Setup event listeners
-            document.getElementById('login-btn')?.addEventListener('click', login);
-            document.getElementById('logout-btn')?.addEventListener('click', logout);
-            document.getElementById('admin-password')?.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') login();
-            });
             
             document.getElementById('tour-artist-filter')?.addEventListener('change', loadAllTourDates);
             document.getElementById('album-artist-filter')?.addEventListener('change', loadAllAlbums);
@@ -1263,9 +1247,36 @@
             });
         }
 
-        // Close modal on escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closeModal();
+        // ============================================
+        // SETUP EVENT LISTENERS ON PAGE LOAD
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Login button event
+            const loginBtn = document.getElementById('login-btn');
+            if (loginBtn) {
+                loginBtn.addEventListener('click', login);
+            }
+            
+            // Enter key on password field
+            const passwordInput = document.getElementById('admin-password');
+            if (passwordInput) {
+                passwordInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') login();
+                });
+            }
+            
+            // Logout button (if already logged in)
+            const logoutBtn = document.getElementById('logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', logout);
+            }
+            
+            // If already authenticated, show dashboard directly
+            if (sessionStorage.getItem('stature_admin_auth') === 'true') {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+                initDashboard();
+            }
         });
     </script>
 </body>
