@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Artist profile — Stature Management">
-    <title>Artist Profile — Stature Management</title>
+    <meta name="description" content="Celebrity profile — Stature Management">
+    <title>Celebrity Profile — Stature Management</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -42,7 +42,7 @@
             <a href="../contact.html" class="mobile-nav-link">Contact</a>
         </nav>
         <div class="mobile-menu-footer">
-            <button onclick="bookArtist('')" class="nav-cta mobile-cta">Book an Artist</button>
+            <button onclick="bookTalent('')" class="nav-cta mobile-cta">Book Talent</button>
         </div>
     </div>
 
@@ -57,7 +57,7 @@
                 <a href="../contact.html" class="nav-link">Contact</a>
             </nav>
             <div class="nav-cta-wrapper">
-                <button onclick="bookArtist('')" class="nav-cta">Book an Artist</button>
+                <button onclick="bookTalent('')" class="nav-cta">Book Talent</button>
             </div>
             <button id="hamburger-btn" class="hamburger-btn">
                 <span class="material-symbols-outlined">menu</span>
@@ -69,7 +69,7 @@
         <!-- Loading State -->
         <div class="loading-state">
             <div class="loading-spinner"></div>
-            <p>Loading Artist Profile</p>
+            <p>Loading Celebrity Profile</p>
         </div>
     </main>
 
@@ -86,13 +86,13 @@
         <div class="footer-container">
             <div class="footer-brand">
                 <span class="footer-logo">Stature Management</span>
-                <p class="footer-description">Premium artist representation and global brand management. Elevating the voices that define modern culture.</p>
+                <p class="footer-description">Premier talent representation and global brand management. Elevating the voices that define modern culture.</p>
             </div>
             <div class="footer-links-col">
                 <h4 class="footer-heading">Explore</h4>
                 <div class="footer-links">
                     <a href="../about.html">About Agency</a>
-                    <a href="../index.html#roster">Artist Roster</a>
+                    <a href="../index.html#roster">Talent Roster</a>
                     <a href="../services.html">Management Services</a>
                     <a href="../contact.html">Contact</a>
                 </div>
@@ -122,6 +122,12 @@
         (function() {
             'use strict';
 
+            // Ensure global bookTalent is defined (aliased to existing bookArtist)
+            window.bookTalent = window.bookTalent || window.bookArtist || function(name, emailTo, subject, body) {
+                if (window.bookArtist) window.bookArtist(name, emailTo, subject, body);
+                else console.warn("bookArtist not defined");
+            };
+
             const profileContainer = document.getElementById('profile-content');
             const bookingBar = document.getElementById('booking-bar');
             const bookingBarName = document.getElementById('booking-bar-name');
@@ -135,68 +141,63 @@
                 profileContainer.innerHTML = `
                     <div class="error-state">
                         <span class="material-symbols-outlined">error_outline</span>
-                        <p>No artist specified.</p>
-                        <a href="../index.html" class="btn-primary">View All Artists</a>
+                        <p>No celebrity specified.</p>
+                        <a href="../index.html" class="btn-primary">View All Talent</a>
                     </div>
                 `;
                 return;
             }
 
-            // Fetch artist data
+            // Fetch talent data
             if (!window.StatureDB || !window.StatureDB.fetchArtistBySlug) {
                 profileContainer.innerHTML = `
                     <div class="error-state">
                         <span class="material-symbols-outlined">error_outline</span>
-                        <p>Unable to load artist data. Please try again later.</p>
+                        <p>Unable to load celebrity data. Please try again later.</p>
                     </div>
                 `;
                 return;
             }
 
-            window.StatureDB.fetchArtistBySlug(slug).then(function(artist) {
-                if (!artist) {
+            window.StatureDB.fetchArtistBySlug(slug).then(function(talent) {
+                if (!talent) {
                     profileContainer.innerHTML = `
                         <div class="error-state">
                             <span class="material-symbols-outlined">person_off</span>
-                            <p>Artist not found.</p>
-                            <a href="../index.html" class="btn-primary">View All Artists</a>
+                            <p>Celebrity not found.</p>
+                            <a href="../index.html" class="btn-primary">View All Talent</a>
                         </div>
                     `;
                     return;
                 }
 
                 // Update page title
-                document.title = artist.name + ' — Stature Management';
+                document.title = talent.name + ' — Stature Management';
                 const metaDesc = document.querySelector('meta[name="description"]');
                 if (metaDesc) {
-                    metaDesc.setAttribute('content', artist.name + ' — ' + (artist.genre || 'Artist') + ' represented by Stature Management.');
+                    metaDesc.setAttribute('content', talent.name + ' — ' + (talent.genre || 'Celebrity') + ' represented by Stature Management.');
                 }
 
                 // Update booking bar
-                if (bookingBarName) bookingBarName.textContent = artist.name.split(' ')[0];
+                if (bookingBarName) bookingBarName.textContent = talent.name.split(' ')[0];
                 if (bookingBarBtn) {
                     bookingBarBtn.onclick = function() {
-                        bookArtist(artist.name);
+                        bookTalent(talent.name);
                     };
                 }
 
                 // Build data
-                const heroImage = artist.hero_image_url || artist.photo_url || 'https://images.unsplash.com/photo-1540039155732-684735035727?q=80&w=2069&auto=format&fit=crop';
-                const genre = artist.genre || 'Artist';
-                const bio = artist.bio || 'Biography coming soon.';
-                const tagline = artist.tagline || '';
-                const label = artist.label || '';
+                const heroImage = talent.hero_image_url || talent.photo_url || 'https://images.unsplash.com/photo-1540039155732-684735035727?q=80&w=2069&auto=format&fit=crop';
+                const category = talent.genre || 'Celebrity';
+                const bio = talent.bio || 'Biography coming soon.';
+                const tagline = talent.tagline || '';
+                const agency = talent.label || '';
 
                 // Social links
-                const instagram = artist.instagram || '';
-                const twitter = artist.twitter || '';
-                const facebook = artist.facebook || '';
-                const tiktok = artist.tiktok || '';
-
-                // Streaming links
-                const spotifyId = artist.spotify_id || '';
-                const youtubeChannel = artist.youtube_channel || '';
-                const appleMusicId = artist.apple_music_id || '';
+                const instagram = talent.instagram || '';
+                const twitter = talent.twitter || '';
+                const facebook = talent.facebook || '';
+                const tiktok = talent.tiktok || '';
 
                 // Build social links HTML
                 let socialLinksHtml = '';
@@ -205,33 +206,30 @@
                 if (facebook) socialLinksHtml += `<a href="https://www.facebook.com/${facebook}" target="_blank" rel="noopener" class="profile-social-link"><i class="fa-brands fa-facebook"></i></a>`;
                 if (tiktok) socialLinksHtml += `<a href="https://www.tiktok.com/@${tiktok}" target="_blank" rel="noopener" class="profile-social-link"><i class="fa-brands fa-tiktok"></i></a>`;
 
-                // Build stream links
-                let streamLinksHtml = '';
-                if (spotifyId) streamLinksHtml += `<a href="https://open.spotify.com/artist/${spotifyId}" target="_blank" rel="noopener" class="stream-link spotify"><i class="fa-brands fa-spotify"></i> Spotify</a>`;
-                if (appleMusicId) streamLinksHtml += `<a href="https://music.apple.com/us/artist/${appleMusicId}" target="_blank" rel="noopener" class="stream-link apple"><i class="fa-brands fa-apple"></i> Apple Music</a>`;
-                if (youtubeChannel) streamLinksHtml += `<a href="https://www.youtube.com/channel/${youtubeChannel}" target="_blank" rel="noopener" class="stream-link youtube"><i class="fa-brands fa-youtube"></i> YouTube</a>`;
+                // Streaming links (Spotify, Apple Music, YouTube) are removed for non-musicians.
+                // They are still in the database but not displayed.
 
                 profileContainer.innerHTML = `
                     <!-- Hero Section -->
                     <div class="profile-hero">
                         <div class="profile-hero-bg"></div>
-                        <img src="${heroImage}" alt="${artist.name}" class="profile-hero-img" />
+                        <img src="${heroImage}" alt="${talent.name}" class="profile-hero-img" />
                         <div class="profile-hero-overlay"></div>
                     </div>
 
-                    <!-- Artist Info Section -->
+                    <!-- Talent Info Section -->
                     <div class="profile-container">
                         <div class="profile-header">
-                            <h1 class="profile-name">${escapeHtml(artist.name)}</h1>
+                            <h1 class="profile-name">${escapeHtml(talent.name)}</h1>
                             <div class="profile-meta">
-                                <span class="profile-genre">${escapeHtml(genre)}</span>
-                                ${label ? `<span class="profile-label-text">${escapeHtml(label)}</span>` : ''}
+                                <span class="profile-genre">${escapeHtml(category)}</span>
+                                ${agency ? `<span class="profile-label-text">${escapeHtml(agency)}</span>` : ''}
                             </div>
                             ${tagline ? `<p class="profile-tagline">${escapeHtml(tagline)}</p>` : ''}
                             
-                            <button onclick="bookArtist('${escapeHtml(artist.name).replace(/'/g, "\\'")}')" class="btn-gold profile-book-btn">
+                            <button onclick="bookTalent('${escapeHtml(talent.name).replace(/'/g, "\\'")}')" class="btn-gold profile-book-btn">
                                 <span class="material-symbols-outlined">send</span>
-                                Book ${escapeHtml(artist.name.split(' ')[0])}
+                                Book ${escapeHtml(talent.name.split(' ')[0])}
                             </button>
                             
                             ${socialLinksHtml ? `<div class="profile-social">${socialLinksHtml}</div>` : ''}
@@ -243,27 +241,19 @@
                             <div class="profile-bio">${escapeHtml(bio).replace(/\n/g, '<br>')}</div>
                         </div>
 
-                        <!-- Streaming Links -->
-                        ${streamLinksHtml ? `
+                        <!-- Upcoming Appearances (formerly Tour Dates) -->
                         <div class="profile-section">
-                            <h2 class="profile-section-title">Listen</h2>
-                            <div class="profile-streaming">${streamLinksHtml}</div>
-                        </div>
-                        ` : ''}
-
-                        <!-- Tour Dates -->
-                        <div class="profile-section">
-                            <h2 class="profile-section-title">Tour Dates</h2>
+                            <h2 class="profile-section-title">Upcoming Appearances</h2>
                             <div id="profile-tour-dates" class="tour-dates-container">
-                                <div class="loading-small">Loading tour dates...</div>
+                                <div class="loading-small">Loading appearances...</div>
                             </div>
                         </div>
 
-                        <!-- Discography -->
+                        <!-- Notable Work (formerly Discography) -->
                         <div class="profile-section">
-                            <h2 class="profile-section-title">Discography</h2>
+                            <h2 class="profile-section-title">Notable Work</h2>
                             <div id="profile-albums" class="discography-grid">
-                                <div class="loading-small">Loading discography...</div>
+                                <div class="loading-small">Loading notable work...</div>
                             </div>
                         </div>
 
@@ -274,33 +264,33 @@
                                 <div class="experience-card">
                                     <span class="material-symbols-outlined experience-icon">handshake</span>
                                     <h3 class="experience-title">Meet & Greet</h3>
-                                    <p class="experience-desc">Meet ${escapeHtml(artist.name.split(' ')[0])} before or after the show. Photos and autographs included.</p>
-                                    <button onclick="bookArtist('${escapeHtml(artist.name).replace(/'/g, "\\'")}', 'info@management-inc.site', 'Meet & Greet Request — ${escapeHtml(artist.name).replace(/'/g, "\\'")}', 'Name:%0D%0AShow Date:%0D%0ANumber of People:%0D%0ASpecial Requests:')" class="btn-outline experience-btn">Request Meet & Greet</button>
+                                    <p class="experience-desc">Meet ${escapeHtml(talent.name.split(' ')[0])} before or after the event. Photos and autographs included.</p>
+                                    <button onclick="bookTalent('${escapeHtml(talent.name).replace(/'/g, "\\'")}', 'info@management-inc.site', 'Meet & Greet Request — ${escapeHtml(talent.name).replace(/'/g, "\\'")}', 'Name:%0D%0AEvent Date:%0D%0ANumber of People:%0D%0ASpecial Requests:')" class="btn-outline experience-btn">Request Meet & Greet</button>
                                 </div>
                                 <div class="experience-card">
                                     <span class="material-symbols-outlined experience-icon">star</span>
                                     <h3 class="experience-title">VIP Experience</h3>
-                                    <p class="experience-desc">Exclusive access, private dinners, and once-in-a-lifetime moments with ${escapeHtml(artist.name.split(' ')[0])}.</p>
-                                    <button onclick="bookArtist('${escapeHtml(artist.name).replace(/'/g, "\\'")}', 'info@management-inc.site', 'VIP Experience Inquiry — ${escapeHtml(artist.name).replace(/'/g, "\\'")}', 'Name:%0D%0AExperience Type:%0D%0ANumber of Guests:%0D%0APreferred Date:%0D%0AAdditional Details:')" class="btn-outline experience-btn">Request VIP Access</button>
+                                    <p class="experience-desc">Exclusive access, private dinners, and once-in-a-lifetime moments with ${escapeHtml(talent.name.split(' ')[0])}.</p>
+                                    <button onclick="bookTalent('${escapeHtml(talent.name).replace(/'/g, "\\'")}', 'info@management-inc.site', 'VIP Experience Inquiry — ${escapeHtml(talent.name).replace(/'/g, "\\'")}', 'Name:%0D%0AExperience Type:%0D%0ANumber of Guests:%0D%0APreferred Date:%0D%0AAdditional Details:')" class="btn-outline experience-btn">Request VIP Access</button>
                                 </div>
                                 <div class="experience-card">
                                     <span class="material-symbols-outlined experience-icon">shopping_bag</span>
                                     <h3 class="experience-title">Merchandise</h3>
-                                    <p class="experience-desc">Signed vinyl, exclusive apparel, limited edition posters.</p>
-                                    <button onclick="bookArtist('${escapeHtml(artist.name).replace(/'/g, "\\'")}', 'info@management-inc.site', 'Merchandise Inquiry — ${escapeHtml(artist.name).replace(/'/g, "\\'")}', 'Name:%0D%0AItem Interested In:%0D%0ASize (if applicable):%0D%0AShipping Country:')" class="btn-outline experience-btn">Request Merch</button>
+                                    <p class="experience-desc">Signed memorabilia, exclusive apparel, limited edition items.</p>
+                                    <button onclick="bookTalent('${escapeHtml(talent.name).replace(/'/g, "\\'")}', 'info@management-inc.site', 'Merchandise Inquiry — ${escapeHtml(talent.name).replace(/'/g, "\\'")}', 'Name:%0D%0AItem Interested In:%0D%0ASize (if applicable):%0D%0AShipping Country:')" class="btn-outline experience-btn">Request Merch</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 `;
 
-                // Load tour dates and albums using the existing supabase.js functions
-                if (artist.id) {
+                // Load upcoming appearances (tour_dates) and notable work (albums)
+                if (talent.id) {
                     if (window.StatureDB.renderTourDates) {
-                        window.StatureDB.renderTourDates(artist.id, 'profile-tour-dates');
+                        window.StatureDB.renderTourDates(talent.id, 'profile-tour-dates');
                     }
                     if (window.StatureDB.renderAlbums) {
-                        window.StatureDB.renderAlbums(artist.id, 'profile-albums');
+                        window.StatureDB.renderAlbums(talent.id, 'profile-albums');
                     }
                 }
 
@@ -309,7 +299,7 @@
                     bookingBar.style.display = 'block';
                 }
             }).catch(function(err) {
-                console.error('Error loading artist profile:', err);
+                console.error('Error loading celebrity profile:', err);
                 profileContainer.innerHTML = `
                     <div class="error-state">
                         <span class="material-symbols-outlined">error_outline</span>

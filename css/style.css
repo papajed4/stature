@@ -631,7 +631,7 @@ img {
 }
 
 /* =============================================
-   ARTIST CARDS
+   ARTIST CARDS (also used for talents grid)
    ============================================= */
 .artist-roster-grid {
     display: grid;
@@ -809,7 +809,7 @@ img {
 }
 
 /* =============================================
-   TOUR ROWS
+   TOUR ROWS (Upcoming Appearances)
    ============================================= */
 .tour-row {
     display: flex;
@@ -1118,7 +1118,7 @@ img {
 }
 
 /* =============================================
-   DISCOGRAPHY - 4 COLUMN GRID
+   DISCOGRAPHY / NOTABLE WORK (4 COLUMN GRID)
    ============================================= */
 .discography-grid {
     display: grid;
@@ -1192,41 +1192,6 @@ img {
     display: block;
     margin-bottom: 16px;
     color: var(--color-gold-dim);
-}
-
-@media (max-width: 1024px) {
-    .discography-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-    }
-}
-
-@media (max-width: 768px) {
-    .discography-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
-    }
-    .discography-item {
-        padding: 16px 12px;
-    }
-    .discography-title {
-        font-size: 0.85rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .discography-grid {
-        gap: 12px;
-    }
-    .discography-item {
-        padding: 12px;
-    }
-    .discography-title {
-        font-size: 0.75rem;
-    }
-    .discography-meta {
-        font-size: 0.5rem;
-    }
 }
 
 /* =============================================
@@ -1389,6 +1354,7 @@ img {
     line-height: 1.8;
 }
 
+/* Streaming links (hidden in generic version, but styles kept in case) */
 .profile-streaming {
     display: flex;
     flex-wrap: wrap;
@@ -1571,6 +1537,125 @@ img {
     justify-content: center;
 }
 
+/* =============================================
+   TALENTS PAGE – SEARCH & FILTER (Added)
+   ============================================= */
+.search-filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.search-box {
+    flex: 2;
+    min-width: 200px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 8px 16px;
+    transition: all 0.3s ease;
+}
+
+.search-box:focus-within {
+    border-color: #e9c176;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.search-box .material-symbols-outlined {
+    color: #8e9192;
+    font-size: 1.2rem;
+}
+
+.search-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.85rem;
+    outline: none;
+}
+
+.search-input::placeholder {
+    color: #555;
+}
+
+.filter-box {
+    min-width: 180px;
+}
+
+.filter-select {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px 16px;
+    color: #fff;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.8rem;
+    cursor: pointer;
+    outline: none;
+}
+
+.filter-select:focus {
+    border-color: #e9c176;
+}
+
+/* =============================================
+   RESPONSIVE GLOBAL
+   ============================================= */
+@media (max-width: 768px) {
+    :root {
+        --section-gap: 80px;
+        --margin-edge: 24px;
+        --gutter: 20px;
+    }
+    .hero-headline {
+        font-size: 2.5rem;
+    }
+    .hero-tagline {
+        font-size: 1rem;
+    }
+    .tour-row {
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+        padding: 20px 16px;
+    }
+    .tour-date-block {
+        flex-direction: row;
+        gap: 12px;
+        min-width: auto;
+    }
+    .service-card {
+        padding: 32px 24px;
+    }
+
+    /* Talents page responsive */
+    .search-filter-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .search-box {
+        width: 100%;
+    }
+    .filter-box {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .btn-primary, .btn-outline {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Additional profile page mobile adjustments */
 @media (max-width: 768px) {
     .booking-bar {
         display: block;
@@ -1612,43 +1697,5 @@ img {
     }
     .profile-book-btn {
         width: 100%;
-    }
-}
-
-/* =============================================
-   RESPONSIVE GLOBAL
-   ============================================= */
-@media (max-width: 768px) {
-    :root {
-        --section-gap: 80px;
-        --margin-edge: 24px;
-        --gutter: 20px;
-    }
-    .hero-headline {
-        font-size: 2.5rem;
-    }
-    .hero-tagline {
-        font-size: 1rem;
-    }
-    .tour-row {
-        flex-direction: column;
-        gap: 16px;
-        align-items: flex-start;
-        padding: 20px 16px;
-    }
-    .tour-date-block {
-        flex-direction: row;
-        gap: 12px;
-        min-width: auto;
-    }
-    .service-card {
-        padding: 32px 24px;
-    }
-}
-
-@media (max-width: 480px) {
-    .btn-primary, .btn-outline {
-        width: 100%;
-        justify-content: center;
     }
 }

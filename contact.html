@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Contact Stature Management — Artist booking, management inquiries, and brand partnerships.">
+        content="Contact Stature Management — Talent booking, management inquiries, and brand partnerships.">
     <title>Contact — Stature Management</title>
 
     <!-- Fonts -->
@@ -48,8 +48,7 @@
             <a href="contact.html" class="mobile-nav-link active">Contact</a>
         </nav>
         <div style="margin-top: auto; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.08);">
-            <button onclick="bookArtist('')" class="nav-cta" style="width: 100%; text-align: center;">Book an
-                Artist</button>
+            <button onclick="bookTalent('')" class="nav-cta" style="width: 100%; text-align: center;">Book Talent</button>
         </div>
     </div>
 
@@ -64,7 +63,7 @@
                 <a href="contact.html" class="nav-link active">Contact</a>
             </nav>
             <div class="nav-cta-wrapper">
-                <button onclick="bookArtist('')" class="nav-cta">Book an Artist</button>
+                <button onclick="bookTalent('')" class="nav-cta">Book Talent</button>
             </div>
             <button id="hamburger-btn" class="hamburger-btn">
                 <span class="material-symbols-outlined">menu</span>
@@ -263,7 +262,7 @@
                             <label class="form-label">Subject *</label>
                             <select name="subject" required class="form-select">
                                 <option value="" disabled selected>Select a topic</option>
-                                <option value="booking">Artist Booking Inquiry</option>
+                                <option value="booking">Talent Booking Inquiry</option>
                                 <option value="press">Press & Media</option>
                                 <option value="management">Management Representation</option>
                                 <option value="collaboration">Brand Collaboration</option>
@@ -338,15 +337,15 @@
                             </a>
                             <a href="index.html#roster" class="quick-link">
                                 <span class="material-symbols-outlined">groups</span>
-                                Our Artists
+                                Our Talent
                             </a>
                             <a href="about.html" class="quick-link">
                                 <span class="material-symbols-outlined">info</span>
                                 About Us
                             </a>
-                            <a href="#" onclick="bookArtist(''); return false;" class="quick-link">
+                            <a href="#" onclick="bookTalent(''); return false;" class="quick-link">
                                 <span class="material-symbols-outlined">send</span>
-                                Book an Artist
+                                Book Talent
                             </a>
                         </div>
                     </div>
@@ -581,7 +580,7 @@
                 <span class="section-label">Stay Connected</span>
                 <h2 class="newsletter-headline">The Dispatch</h2>
                 <p class="newsletter-text">
-                    Join our mailing list for artist announcements, tour news, and exclusive opportunities.
+                    Join our mailing list for talent announcements, event news, and exclusive opportunities.
                 </p>
                 <form id="newsletter-form" onsubmit="newsletterSignup('newsletter-email'); return false;"
                     class="newsletter-form">
@@ -690,14 +689,14 @@
         <section class="section reveal booking-cta">
             <div class="booking-cta-content">
                 <span class="section-label">Ready to Book</span>
-                <h2 class="booking-headline">Book an Artist</h2>
+                <h2 class="booking-headline">Book Talent</h2>
                 <p class="booking-text">
                     For private events, corporate shows, meet and greets, or brand partnerships — reach out directly.
                 </p>
                 <div class="booking-buttons">
-                    <button onclick="bookArtist('')" class="btn-primary">
+                    <button onclick="bookTalent('')" class="btn-primary">
                         <span class="material-symbols-outlined">send</span>
-                        Book an Artist
+                        Book Talent
                     </button>
                     <a href="services.html" class="btn-outline">
                         <span class="material-symbols-outlined">star</span>
@@ -744,14 +743,13 @@
         <div class="footer-container">
             <div class="footer-brand">
                 <span class="footer-logo">Stature Management</span>
-                <p class="footer-description">Premium artist representation and global brand management. Elevating the
-                    voices that define modern culture.</p>
+                <p class="footer-description">Premier talent representation and global brand management. Elevating the voices that define modern culture.</p>
             </div>
             <div class="footer-links-col">
                 <h4 class="footer-heading">Explore</h4>
                 <div class="footer-links">
                     <a href="about.html">About Agency</a>
-                    <a href="index.html#roster">Artist Roster</a>
+                    <a href="index.html#roster">Talent Roster</a>
                     <a href="services.html">Management Services</a>
                     <a href="contact.html">Contact</a>
                 </div>
@@ -882,6 +880,12 @@
     <script src="js/main.js"></script>
 
     <script>
+        // Ensure bookTalent is defined (fallback to bookArtist if needed)
+        window.bookTalent = window.bookTalent || window.bookArtist || function(name) {
+            if (window.bookArtist) window.bookArtist(name);
+            else console.warn("bookArtist not defined");
+        };
+
         document.addEventListener('DOMContentLoaded', function () {
             // Navbar scroll effect
             const navbar = document.getElementById('navbar');
