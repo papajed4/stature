@@ -529,156 +529,158 @@
         <div class="dashboard-header">
             <div>
                 <span class="dashboard-title">Stature Admin</span>
-                <span class="dashboard-subtitle">Artist & Data Management</span>
+                <span class="dashboard-subtitle">Celebrity & Talent Management</span>
             </div>
             <button id="logout-btn" class="admin-btn admin-btn-secondary">Logout</button>
         </div>
 
         <!-- Tabs -->
         <div class="tabs">
-            <button class="tab-btn active" data-tab="artists">Artists</button>
-            <button class="tab-btn" data-tab="tourdates">Tour Dates</button>
-            <button class="tab-btn" data-tab="albums">Albums</button>
-            <button class="tab-btn" data-tab="add-artist">+ Add Artist</button>
-            <button class="tab-btn" data-tab="add-tour">+ Add Tour Date</button>
-            <button class="tab-btn" data-tab="add-album">+ Add Album</button>
+            <button class="tab-btn active" data-tab="artists">Talents</button>
+            <button class="tab-btn" data-tab="tourdates">Upcoming Appearances</button>
+            <button class="tab-btn" data-tab="albums">Notable Work</button>
+            <button class="tab-btn" data-tab="add-artist">+ Add Talent</button>
+            <button class="tab-btn" data-tab="add-tour">+ Add Appearance</button>
+            <button class="tab-btn" data-tab="add-album">+ Add Notable Work</button>
         </div>
 
         <!-- Tab: Artists List -->
         <div id="tab-artists" class="tab-content active">
             <div class="admin-card">
                 <div class="admin-card-header">
-                    <h3 class="admin-card-title">All Artists</h3>
-                    <button class="admin-btn admin-btn-primary" style="padding: 8px 20px;" onclick="switchTab('add-artist')">+ New Artist</button>
+                    <h3 class="admin-card-title">All Talents</h3>
+                    <button class="admin-btn admin-btn-primary" style="padding: 8px 20px;" onclick="switchTab('add-artist')">+ New Talent</button>
                 </div>
                 <div id="artists-table-container" style="overflow-x: auto;">
-                    <p style="color: #666;">Loading artists...</p>
+                    <p style="color: #666;">Loading talents...</p>
                 </div>
             </div>
         </div>
 
-        <!-- Tab: Tour Dates List -->
+        <!-- Tab: Upcoming Appearances (formerly Tour Dates) -->
         <div id="tab-tourdates" class="tab-content">
             <div class="admin-card">
                 <div class="admin-card-header">
-                    <h3 class="admin-card-title">All Tour Dates</h3>
+                    <h3 class="admin-card-title">All Upcoming Appearances</h3>
                     <div style="display: flex; gap: 12px;">
                         <select id="tour-artist-filter" class="admin-input" style="width: 200px;">
-                            <option value="">All Artists</option>
+                            <option value="">All Talents</option>
                         </select>
-                        <button class="admin-btn admin-btn-primary" style="padding: 8px 20px;" onclick="switchTab('add-tour')">+ Add Tour Date</button>
+                        <button class="admin-btn admin-btn-primary" style="padding: 8px 20px;" onclick="switchTab('add-tour')">+ Add Appearance</button>
                     </div>
                 </div>
                 <div id="tourdates-table-container" style="overflow-x: auto;">
-                    <p style="color: #666;">Loading tour dates...</p>
+                    <p style="color: #666;">Loading appearances...</p>
                 </div>
             </div>
         </div>
 
-        <!-- Tab: Albums List -->
+        <!-- Tab: Notable Work (formerly Albums) -->
         <div id="tab-albums" class="tab-content">
             <div class="admin-card">
                 <div class="admin-card-header">
-                    <h3 class="admin-card-title">All Albums</h3>
+                    <h3 class="admin-card-title">All Notable Work</h3>
                     <div style="display: flex; gap: 12px;">
                         <select id="album-artist-filter" class="admin-input" style="width: 200px;">
-                            <option value="">All Artists</option>
+                            <option value="">All Talents</option>
                         </select>
-                        <button class="admin-btn admin-btn-primary" style="padding: 8px 20px;" onclick="switchTab('add-album')">+ Add Album</button>
+                        <button class="admin-btn admin-btn-primary" style="padding: 8px 20px;" onclick="switchTab('add-album')">+ Add Notable Work</button>
                     </div>
                 </div>
                 <div id="albums-table-container" style="overflow-x: auto;">
-                    <p style="color: #666;">Loading albums...</p>
+                    <p style="color: #666;">Loading notable work...</p>
                 </div>
             </div>
         </div>
 
-        <!-- Tab: Add Artist Form -->
+        <!-- Tab: Add Artist Form (renamed Add Talent) -->
         <div id="tab-add-artist" class="tab-content">
             <div class="admin-card">
-                <h3 class="admin-card-title" style="margin-bottom: 24px;">Add New Artist</h3>
+                <h3 class="admin-card-title" style="margin-bottom: 24px;">Add New Talent</h3>
                 <form id="add-artist-form">
                     <div class="form-grid">
-                        <div><label class="admin-label">Name *</label><input name="name" required class="admin-input" placeholder="Artist name"></div>
-                        <div><label class="admin-label">Slug *</label><input name="slug" required class="admin-input" placeholder="artist-name (URL friendly)"></div>
-                        <div><label class="admin-label">Genre</label><input name="genre" class="admin-input" placeholder="e.g., Country, Pop, Rock"></div>
-                        <div><label class="admin-label">Label</label><input name="label" class="admin-input" placeholder="Record label"></div>
-                        <div class="form-full"><label class="admin-label">Tagline</label><input name="tagline" class="admin-input" placeholder="Short tagline for the artist"></div>
-                        <div class="form-full"><label class="admin-label">Bio</label><textarea name="bio" class="admin-textarea" placeholder="Full artist biography..."></textarea></div>
-                        <div><label class="admin-label">Photo URL</label><input name="photo_url" class="admin-input" placeholder="https://..."></div>
-                        <div><label class="admin-label">Hero Image URL</label><input name="hero_image_url" class="admin-input" placeholder="https://..."></div>
+                        <div><label class="admin-label">Name *</label><input name="name" required class="admin-input" placeholder="Celebrity name"></div>
+                        <div><label class="admin-label">Slug *</label><input name="slug" required class="admin-input" placeholder="name-url (e.g., riley-green)"></div>
+                        <div><label class="admin-label">Category</label><input name="genre" class="admin-input" placeholder="e.g., Actor, Athlete, Musician, Speaker"></div>
+                        <div><label class="admin-label">Agency / Representation</label><input name="label" class="admin-input" placeholder="e.g., CAA, WME, Independent"></div>
+                        <div class="form-full"><label class="admin-label">Tagline</label><input name="tagline" class="admin-input" placeholder="Short tagline for the celebrity"></div>
+                        <div class="form-full"><label class="admin-label">Bio</label><textarea name="bio" class="admin-textarea" placeholder="Full biography..."></textarea></div>
+                        <div><label class="admin-label">Photo URL</label><input name="photo_url" class="admin-input" placeholder="https://... (card image)"></div>
+                        <div><label class="admin-label">Hero Image URL</label><input name="hero_image_url" class="admin-input" placeholder="https://... (profile hero)"></div>
                         <div><label class="admin-label">Instagram</label><input name="instagram" class="admin-input" placeholder="@username"></div>
                         <div><label class="admin-label">Twitter/X</label><input name="twitter" class="admin-input" placeholder="@username"></div>
                         <div><label class="admin-label">Facebook</label><input name="facebook" class="admin-input" placeholder="username"></div>
                         <div><label class="admin-label">TikTok</label><input name="tiktok" class="admin-input" placeholder="@username"></div>
-                        <div><label class="admin-label">Spotify ID</label><input name="spotify_id" class="admin-input" placeholder="Spotify artist ID"></div>
-                        <div><label class="admin-label">Apple Music ID</label><input name="apple_music_id" class="admin-input" placeholder="Apple Music artist ID"></div>
-                        <div><label class="admin-label">YouTube Channel ID</label><input name="youtube_channel" class="admin-input" placeholder="UC..."></div>
+                        <div><label class="admin-label">Custom Link 1 (ex‑Spotify ID)</label><input name="spotify_id" class="admin-input" placeholder="Optional: IMDb ID, Spotify ID, etc."></div>
+                        <div><label class="admin-label">Custom Link 2 (ex‑Apple Music ID)</label><input name="apple_music_id" class="admin-input" placeholder="Optional"></div>
+                        <div><label class="admin-label">YouTube / Custom Channel</label><input name="youtube_channel" class="admin-input" placeholder="UC... or custom URL"></div>
                         <div style="display: flex; align-items: center; gap: 12px;">
                             <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
                                 <input type="checkbox" name="featured" value="true">
-                                <span class="admin-label" style="margin: 0;">Featured Artist</span>
+                                <span class="admin-label" style="margin: 0;">Featured Talent</span>
                             </label>
                         </div>
                     </div>
                     <div style="margin-top: 24px; display: flex; gap: 12px; justify-content: flex-end;">
                         <button type="button" onclick="switchTab('artists')" class="admin-btn admin-btn-secondary">Cancel</button>
-                        <button type="submit" class="admin-btn admin-btn-primary">Add Artist</button>
+                        <button type="submit" class="admin-btn admin-btn-primary">Add Talent</button>
                     </div>
                 </form>
             </div>
         </div>
 
-        <!-- Tab: Add Tour Date Form -->
+        <!-- Tab: Add Tour Date Form (Add Upcoming Appearance) -->
         <div id="tab-add-tour" class="tab-content">
             <div class="admin-card">
-                <h3 class="admin-card-title" style="margin-bottom: 24px;">Add Tour Date</h3>
+                <h3 class="admin-card-title" style="margin-bottom: 24px;">Add Upcoming Appearance</h3>
                 <form id="add-tour-form">
                     <div class="form-grid">
-                        <div class="form-full"><label class="admin-label">Artist *</label><select name="artist_id" required class="admin-input" id="tour-artist-select"></select></div>
+                        <div class="form-full"><label class="admin-label">Talent *</label><select name="artist_id" required class="admin-input" id="tour-artist-select"></select></div>
                         <div><label class="admin-label">Date *</label><input name="date" type="date" required class="admin-input"></div>
-                        <div><label class="admin-label">Venue *</label><input name="venue" required class="admin-input" placeholder="Venue name"></div>
+                        <div><label class="admin-label">Venue / Event *</label><input name="venue" required class="admin-input" placeholder="Venue or event name"></div>
                         <div><label class="admin-label">City *</label><input name="city" required class="admin-input" placeholder="City, State/Country"></div>
-                        <div class="form-full"><label class="admin-label">Ticket URL</label><input name="ticket_url" class="admin-input" placeholder="https://ticketmaster.com/..."></div>
+                        <div class="form-full"><label class="admin-label">Ticket / Booking URL</label><input name="ticket_url" class="admin-input" placeholder="https://..."></div>
                         <div><label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
                                 <input type="checkbox" name="sold_out" value="true">
-                                <span class="admin-label" style="margin: 0;">Sold Out</span>
+                                <span class="admin-label" style="margin: 0;">Sold Out / Unavailable</span>
                             </label>
                         </div>
                     </div>
                     <div style="margin-top: 24px; display: flex; gap: 12px; justify-content: flex-end;">
                         <button type="button" onclick="switchTab('tourdates')" class="admin-btn admin-btn-secondary">Cancel</button>
-                        <button type="submit" class="admin-btn admin-btn-primary">Add Tour Date</button>
+                        <button type="submit" class="admin-btn admin-btn-primary">Add Appearance</button>
                     </div>
                 </form>
             </div>
         </div>
 
-        <!-- Tab: Add Album Form -->
+        <!-- Tab: Add Album Form (Add Notable Work) -->
         <div id="tab-add-album" class="tab-content">
             <div class="admin-card">
-                <h3 class="admin-card-title" style="margin-bottom: 24px;">Add Album</h3>
+                <h3 class="admin-card-title" style="margin-bottom: 24px;">Add Notable Work</h3>
                 <form id="add-album-form">
                     <div class="form-grid">
-                        <div class="form-full"><label class="admin-label">Artist *</label><select name="artist_id" required class="admin-input" id="album-artist-select"></select></div>
-                        <div><label class="admin-label">Title *</label><input name="title" required class="admin-input" placeholder="Album/EP title"></div>
+                        <div class="form-full"><label class="admin-label">Talent *</label><select name="artist_id" required class="admin-input" id="album-artist-select"></select></div>
+                        <div><label class="admin-label">Title *</label><input name="title" required class="admin-input" placeholder="Project title (movie, album, campaign)"></div>
                         <div><label class="admin-label">Year</label><input name="year" type="number" class="admin-input" placeholder="2024"></div>
                         <div><label class="admin-label">Type</label><select name="type" class="admin-input">
+                                <option value="Movie">Movie</option>
+                                <option value="TV Show">TV Show</option>
+                                <option value="Campaign">Campaign</option>
                                 <option value="Album">Album</option>
                                 <option value="EP">EP</option>
                                 <option value="Single">Single</option>
                             </select>
                         </div>
-                        <div class="form-full"><label class="admin-label">Artwork URL</label><input name="artwork_url" class="admin-input" placeholder="https://..."></div>
+                        <div class="form-full"><label class="admin-label">Image / Artwork URL</label><input name="artwork_url" class="admin-input" placeholder="https://... (poster, cover)"></div>
                     </div>
                     <div style="margin-top: 24px; display: flex; gap: 12px; justify-content: flex-end;">
                         <button type="button" onclick="switchTab('albums')" class="admin-btn admin-btn-secondary">Cancel</button>
-                        <button type="submit" class="admin-btn admin-btn-primary">Add Album</button>
+                        <button type="submit" class="admin-btn admin-btn-primary">Add Notable Work</button>
                     </div>
                 </form>
             </div>
         </div>
-
     </div>
 
     <!-- Edit Modal -->
@@ -799,14 +801,14 @@
         }
 
         // ============================================
-        // LOAD ARTISTS (with Edit/Delete)
+        // LOAD ARTISTS (Talents)
         // ============================================
         async function loadArtists() {
             const client = getSupabase();
             if (!client) return;
 
             const { data, error } = await client.from('artists').select('*').order('name');
-            if (error) { toast('Failed to load artists', 'error'); return; }
+            if (error) { toast('Failed to load talents', 'error'); return; }
 
             currentArtists = data || [];
             renderArtistsTable(currentArtists);
@@ -815,11 +817,11 @@
         function renderArtistsTable(artists) {
             const container = document.getElementById('artists-table-container');
             if (!artists.length) {
-                container.innerHTML = '<p style="color: #666; text-align: center; padding: 40px;">No artists yet. Add your first artist.</p>';
+                container.innerHTML = '<p style="color: #666; text-align: center; padding: 40px;">No talents yet. Add your first talent.</p>';
                 return;
             }
 
-            let html = '<table class="admin-table"><thead><tr><th>Name</th><th>Slug</th><th>Genre</th><th>Featured</th><th style="width: 150px;">Actions</th></tr></thead><tbody>';
+            let html = '<table class="admin-table"><thead><tr><th>Name</th><th>Slug</th><th>Category</th><th>Featured</th><th style="width: 150px;">Actions</th></tr></thead><tbody>';
             artists.forEach(a => {
                 html += `
                     <tr>
@@ -844,19 +846,19 @@
         async function openEditArtist(artistId) {
             const client = getSupabase();
             const { data: artist, error } = await client.from('artists').select('*').eq('id', artistId).single();
-            if (error) { toast('Error loading artist', 'error'); return; }
+            if (error) { toast('Error loading talent', 'error'); return; }
 
             const modal = document.getElementById('edit-modal');
             const modalTitle = document.getElementById('modal-title');
-            modalTitle.textContent = `Edit Artist: ${artist.name}`;
+            modalTitle.textContent = `Edit Talent: ${artist.name}`;
 
             document.getElementById('modal-body').innerHTML = `
                 <form id="edit-artist-form" onsubmit="updateArtist(event, ${artist.id})">
                     <div class="form-grid">
                         <div><label class="admin-label">Name *</label><input name="name" required class="admin-input" value="${escapeHtml(artist.name)}"></div>
                         <div><label class="admin-label">Slug *</label><input name="slug" required class="admin-input" value="${escapeHtml(artist.slug)}"></div>
-                        <div><label class="admin-label">Genre</label><input name="genre" class="admin-input" value="${escapeHtml(artist.genre || '')}"></div>
-                        <div><label class="admin-label">Label</label><input name="label" class="admin-input" value="${escapeHtml(artist.label || '')}"></div>
+                        <div><label class="admin-label">Category</label><input name="genre" class="admin-input" value="${escapeHtml(artist.genre || '')}"></div>
+                        <div><label class="admin-label">Agency</label><input name="label" class="admin-input" value="${escapeHtml(artist.label || '')}"></div>
                         <div class="form-full"><label class="admin-label">Tagline</label><input name="tagline" class="admin-input" value="${escapeHtml(artist.tagline || '')}"></div>
                         <div class="form-full"><label class="admin-label">Bio</label><textarea name="bio" class="admin-textarea">${escapeHtml(artist.bio || '')}</textarea></div>
                         <div><label class="admin-label">Photo URL</label><input name="photo_url" class="admin-input" value="${escapeHtml(artist.photo_url || '')}"></div>
@@ -865,12 +867,12 @@
                         <div><label class="admin-label">Twitter/X</label><input name="twitter" class="admin-input" value="${escapeHtml(artist.twitter || '')}"></div>
                         <div><label class="admin-label">Facebook</label><input name="facebook" class="admin-input" value="${escapeHtml(artist.facebook || '')}"></div>
                         <div><label class="admin-label">TikTok</label><input name="tiktok" class="admin-input" value="${escapeHtml(artist.tiktok || '')}"></div>
-                        <div><label class="admin-label">Spotify ID</label><input name="spotify_id" class="admin-input" value="${escapeHtml(artist.spotify_id || '')}"></div>
-                        <div><label class="admin-label">Apple Music ID</label><input name="apple_music_id" class="admin-input" value="${escapeHtml(artist.apple_music_id || '')}"></div>
-                        <div><label class="admin-label">YouTube Channel ID</label><input name="youtube_channel" class="admin-input" value="${escapeHtml(artist.youtube_channel || '')}"></div>
+                        <div><label class="admin-label">Custom Link 1</label><input name="spotify_id" class="admin-input" value="${escapeHtml(artist.spotify_id || '')}"></div>
+                        <div><label class="admin-label">Custom Link 2</label><input name="apple_music_id" class="admin-input" value="${escapeHtml(artist.apple_music_id || '')}"></div>
+                        <div><label class="admin-label">YouTube / Custom</label><input name="youtube_channel" class="admin-input" value="${escapeHtml(artist.youtube_channel || '')}"></div>
                         <div><label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
                                 <input type="checkbox" name="featured" ${artist.featured ? 'checked' : ''}>
-                                <span class="admin-label" style="margin: 0;">Featured Artist</span>
+                                <span class="admin-label" style="margin: 0;">Featured Talent</span>
                             </label>
                         </div>
                     </div>
@@ -908,9 +910,9 @@
             };
 
             const { error } = await client.from('artists').update(updates).eq('id', artistId);
-            if (error) { toast('Error updating artist: ' + error.message, 'error'); return; }
+            if (error) { toast('Error updating talent: ' + error.message, 'error'); return; }
 
-            toast('Artist updated successfully!', 'success');
+            toast('Talent updated successfully!', 'success');
             closeModal();
             loadArtists();
         }
@@ -919,7 +921,7 @@
         // DELETE ARTIST
         // ============================================
         async function deleteArtist(id) {
-            if (!confirm('⚠️ Warning: This will delete the artist AND all their tour dates and albums. Are you sure?')) return;
+            if (!confirm('⚠️ Warning: This will delete the talent AND all their upcoming appearances and notable work. Are you sure?')) return;
             const client = getSupabase();
             if (!client) return;
 
@@ -927,14 +929,14 @@
             await client.from('albums').delete().eq('artist_id', id);
             const { error } = await client.from('artists').delete().eq('id', id);
 
-            if (error) { toast('Error deleting artist', 'error'); return; }
-            toast('Artist deleted successfully', 'success');
+            if (error) { toast('Error deleting talent', 'error'); return; }
+            toast('Talent deleted successfully', 'success');
             loadArtists();
             loadArtistDropdowns();
         }
 
         // ============================================
-        // ADD ARTIST
+        // ADD ARTIST (TALENT)
         // ============================================
         async function addArtist(event) {
             event.preventDefault();
@@ -964,7 +966,7 @@
             const { error } = await client.from('artists').insert([artist]);
             if (error) { toast('Error: ' + error.message, 'error'); return; }
 
-            toast('Artist added successfully!', 'success');
+            toast('Talent added successfully!', 'success');
             form.reset();
             loadArtists();
             loadArtistDropdowns();
@@ -984,7 +986,7 @@
             dropdowns.forEach(did => {
                 const sel = document.getElementById(did);
                 if (!sel) return;
-                sel.innerHTML = '<option value="">All Artists</option>';
+                sel.innerHTML = '<option value="">All Talents</option>';
                 currentArtists.forEach(a => {
                     sel.innerHTML += `<option value="${a.id}">${escapeHtml(a.name)}</option>`;
                 });
@@ -992,7 +994,7 @@
         }
 
         // ============================================
-        // TOUR DATES (with Edit/Delete)
+        // UPCOMING APPEARANCES (TOUR DATES)
         // ============================================
         async function loadAllTourDates() {
             const artistId = document.getElementById('tour-artist-filter').value;
@@ -1004,9 +1006,9 @@
             const { data, error } = await query.order('date');
 
             if (error) { container.innerHTML = '<p style="color: #f87171;">Error loading.</p>'; return; }
-            if (!data || data.length === 0) { container.innerHTML = '<p style="color: #666; text-align: center; padding: 40px;">No tour dates found.</p>'; return; }
+            if (!data || data.length === 0) { container.innerHTML = '<p style="color: #666; text-align: center; padding: 40px;">No upcoming appearances found.</p>'; return; }
 
-            let html = '<table class="admin-table"><thead><tr><th>Artist</th><th>Date</th><th>Venue</th><th>City</th><th>Status</th><th style="width: 120px;">Actions</th></tr></thead><tbody>';
+            let html = '<table class="admin-table"><thead><tr><th>Talent</th><th>Date</th><th>Venue / Event</th><th>City</th><th>Status</th><th style="width: 120px;">Actions</th></tr></thead><tbody>';
             data.forEach(d => {
                 html += `
                     <tr>
@@ -1029,19 +1031,19 @@
         async function openEditTourDate(tourId) {
             const client = getSupabase();
             const { data: tour, error } = await client.from('tour_dates').select('*').eq('id', tourId).single();
-            if (error) { toast('Error loading tour date', 'error'); return; }
+            if (error) { toast('Error loading appearance', 'error'); return; }
 
             const artists = await client.from('artists').select('id, name');
             const artistOptions = artists.data?.map(a => `<option value="${a.id}" ${a.id === tour.artist_id ? 'selected' : ''}>${escapeHtml(a.name)}</option>`).join('') || '';
 
             const modal = document.getElementById('edit-modal');
-            document.getElementById('modal-title').textContent = 'Edit Tour Date';
+            document.getElementById('modal-title').textContent = 'Edit Upcoming Appearance';
             document.getElementById('modal-body').innerHTML = `
                 <form id="edit-tour-form" onsubmit="updateTourDate(event, ${tour.id})">
                     <div class="form-grid">
-                        <div class="form-full"><label class="admin-label">Artist *</label><select name="artist_id" required class="admin-input">${artistOptions}</select></div>
+                        <div class="form-full"><label class="admin-label">Talent *</label><select name="artist_id" required class="admin-input">${artistOptions}</select></div>
                         <div><label class="admin-label">Date *</label><input name="date" type="date" required class="admin-input" value="${tour.date}"></div>
-                        <div><label class="admin-label">Venue *</label><input name="venue" required class="admin-input" value="${escapeHtml(tour.venue)}"></div>
+                        <div><label class="admin-label">Venue / Event *</label><input name="venue" required class="admin-input" value="${escapeHtml(tour.venue)}"></div>
                         <div><label class="admin-label">City *</label><input name="city" required class="admin-input" value="${escapeHtml(tour.city)}"></div>
                         <div class="form-full"><label class="admin-label">Ticket URL</label><input name="ticket_url" class="admin-input" value="${escapeHtml(tour.ticket_url || '')}"></div>
                         <div><label style="display: flex; align-items: center; gap: 8px;">
@@ -1074,18 +1076,18 @@
             };
 
             const { error } = await client.from('tour_dates').update(updates).eq('id', tourId);
-            if (error) { toast('Error updating tour date', 'error'); return; }
+            if (error) { toast('Error updating appearance', 'error'); return; }
 
-            toast('Tour date updated!', 'success');
+            toast('Appearance updated!', 'success');
             closeModal();
             loadAllTourDates();
         }
 
         async function deleteTourDate(id) {
-            if (!confirm('Delete this tour date?')) return;
+            if (!confirm('Delete this appearance?')) return;
             const client = getSupabase();
             await client.from('tour_dates').delete().eq('id', id);
-            toast('Tour date deleted', 'success');
+            toast('Appearance deleted', 'success');
             loadAllTourDates();
         }
 
@@ -1106,14 +1108,14 @@
             const { error } = await client.from('tour_dates').insert([tourDate]);
             if (error) { toast('Error: ' + error.message, 'error'); return; }
 
-            toast('Tour date added!', 'success');
+            toast('Appearance added!', 'success');
             form.reset();
             loadAllTourDates();
             switchTab('tourdates');
         }
 
         // ============================================
-        // ALBUMS (with Edit/Delete)
+        // NOTABLE WORK (ALBUMS)
         // ============================================
         async function loadAllAlbums() {
             const artistId = document.getElementById('album-artist-filter').value;
@@ -1125,16 +1127,16 @@
             const { data, error } = await query.order('year', { ascending: false });
 
             if (error) { container.innerHTML = '<p style="color: #f87171;">Error loading.</p>'; return; }
-            if (!data || data.length === 0) { container.innerHTML = '<p style="color: #666; text-align: center; padding: 40px;">No albums found.</p>'; return; }
+            if (!data || data.length === 0) { container.innerHTML = '<p style="color: #666; text-align: center; padding: 40px;">No notable work found.</p>'; return; }
 
-            let html = '<table class="admin-table"><thead><tr><th>Artist</th><th>Title</th><th>Year</th><th>Type</th><th style="width: 120px;">Actions</th></tr></thead><tbody>';
+            let html = '<table class="admin-table"><thead><tr><th>Talent</th><th>Title</th><th>Year</th><th>Type</th><th style="width: 120px;">Actions</th></tr></thead><tbody>';
             data.forEach(d => {
                 html += `
                     <tr>
                         <td><strong>${escapeHtml(d.artists?.name)}</strong></td>
                         <td>${escapeHtml(d.title)}</td>
                         <td>${d.year || '—'}</td>
-                        <td>${d.type || 'Album'}</td>
+                        <td>${d.type || '—'}</td>
                         <td class="action-btns">
                             <button onclick="openEditAlbum(${d.id})" class="action-btn action-btn-edit">Edit</button>
                             <button onclick="deleteAlbum(${d.id})" class="action-btn action-btn-delete">Delete</button>
@@ -1149,26 +1151,29 @@
         async function openEditAlbum(albumId) {
             const client = getSupabase();
             const { data: album, error } = await client.from('albums').select('*').eq('id', albumId).single();
-            if (error) { toast('Error loading album', 'error'); return; }
+            if (error) { toast('Error loading notable work', 'error'); return; }
 
             const artists = await client.from('artists').select('id, name');
             const artistOptions = artists.data?.map(a => `<option value="${a.id}" ${a.id === album.artist_id ? 'selected' : ''}>${escapeHtml(a.name)}</option>`).join('') || '';
 
             const modal = document.getElementById('edit-modal');
-            document.getElementById('modal-title').textContent = 'Edit Album';
+            document.getElementById('modal-title').textContent = 'Edit Notable Work';
             document.getElementById('modal-body').innerHTML = `
                 <form id="edit-album-form" onsubmit="updateAlbum(event, ${album.id})">
                     <div class="form-grid">
-                        <div class="form-full"><label class="admin-label">Artist *</label><select name="artist_id" required class="admin-input">${artistOptions}</select></div>
+                        <div class="form-full"><label class="admin-label">Talent *</label><select name="artist_id" required class="admin-input">${artistOptions}</select></div>
                         <div><label class="admin-label">Title *</label><input name="title" required class="admin-input" value="${escapeHtml(album.title)}"></div>
                         <div><label class="admin-label">Year</label><input name="year" type="number" class="admin-input" value="${album.year || ''}"></div>
                         <div><label class="admin-label">Type</label><select name="type" class="admin-input">
+                                <option value="Movie" ${album.type === 'Movie' ? 'selected' : ''}>Movie</option>
+                                <option value="TV Show" ${album.type === 'TV Show' ? 'selected' : ''}>TV Show</option>
+                                <option value="Campaign" ${album.type === 'Campaign' ? 'selected' : ''}>Campaign</option>
                                 <option value="Album" ${album.type === 'Album' ? 'selected' : ''}>Album</option>
                                 <option value="EP" ${album.type === 'EP' ? 'selected' : ''}>EP</option>
                                 <option value="Single" ${album.type === 'Single' ? 'selected' : ''}>Single</option>
                             </select>
                         </div>
-                        <div class="form-full"><label class="admin-label">Artwork URL</label><input name="artwork_url" class="admin-input" value="${escapeHtml(album.artwork_url || '')}"></div>
+                        <div class="form-full"><label class="admin-label">Image URL</label><input name="artwork_url" class="admin-input" value="${escapeHtml(album.artwork_url || '')}"></div>
                     </div>
                     <div style="margin-top: 24px; display: flex; gap: 12px; justify-content: flex-end;">
                         <button type="button" onclick="closeModal()" class="admin-btn admin-btn-secondary">Cancel</button>
@@ -1193,18 +1198,18 @@
             };
 
             const { error } = await client.from('albums').update(updates).eq('id', albumId);
-            if (error) { toast('Error updating album', 'error'); return; }
+            if (error) { toast('Error updating notable work', 'error'); return; }
 
-            toast('Album updated!', 'success');
+            toast('Notable work updated!', 'success');
             closeModal();
             loadAllAlbums();
         }
 
         async function deleteAlbum(id) {
-            if (!confirm('Delete this album?')) return;
+            if (!confirm('Delete this notable work?')) return;
             const client = getSupabase();
             await client.from('albums').delete().eq('id', id);
-            toast('Album deleted', 'success');
+            toast('Notable work deleted', 'success');
             loadAllAlbums();
         }
 
@@ -1224,7 +1229,7 @@
             const { error } = await client.from('albums').insert([album]);
             if (error) { toast('Error: ' + error.message, 'error'); return; }
 
-            toast('Album added!', 'success');
+            toast('Notable work added!', 'success');
             form.reset();
             loadAllAlbums();
             switchTab('albums');
@@ -1251,27 +1256,12 @@
         // SETUP EVENT LISTENERS ON PAGE LOAD
         // ============================================
         document.addEventListener('DOMContentLoaded', function() {
-            // Login button event
             const loginBtn = document.getElementById('login-btn');
-            if (loginBtn) {
-                loginBtn.addEventListener('click', login);
-            }
-            
-            // Enter key on password field
+            if (loginBtn) loginBtn.addEventListener('click', login);
             const passwordInput = document.getElementById('admin-password');
-            if (passwordInput) {
-                passwordInput.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter') login();
-                });
-            }
-            
-            // Logout button (if already logged in)
+            if (passwordInput) passwordInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') login(); });
             const logoutBtn = document.getElementById('logout-btn');
-            if (logoutBtn) {
-                logoutBtn.addEventListener('click', logout);
-            }
-            
-            // If already authenticated, show dashboard directly
+            if (logoutBtn) logoutBtn.addEventListener('click', logout);
             if (sessionStorage.getItem('stature_admin_auth') === 'true') {
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('dashboard').style.display = 'block';
